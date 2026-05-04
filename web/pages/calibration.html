@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视觉校准 - WechatAssistantAgent</title>
+    <link rel="stylesheet" href="/static/css/main.css?v=5">
+</head>
+<body>
+    <aside class="sidebar">
+        <h2>Wechat Assistant</h2>
+        <nav>
+            <a href="/">运行状态</a>
+            <a href="/config">模型配置</a>
+            <a href="/wechat-config">微信参数</a>
+            <a href="/templates">话术模板</a>
+            <a href="/calibration" class="active">视觉校准</a>
+            <a href="/monitor">运行监控</a>
+        </nav>
+    </aside>
+
+    <main class="content">
+        <h1>视觉校准</h1>
+
+        <div class="card">
+            <h3>鼠标取坐标</h3>
+            <p style="font-size: 13px; color: #666; margin-bottom: 15px;">
+                步骤：1. 选择目标区域 → 2. 点击「开始捕获」→ 3. 移动鼠标到第一个角 → 按 Enter 确认 → 4. 移动到第二个角 → 按 Enter 确认
+            </p>
+            <div class="form-group">
+                <label>目标区域</label>
+                <div class="region-selector">
+                    <label><input type="radio" name="targetRegion" value="taskbarRegion"> 任务栏区域</label>
+                    <label><input type="radio" name="targetRegion" value="chatListRegion"> 聊天列表区域</label>
+                    <label><input type="radio" name="targetRegion" value="chatContentRegion"> 聊天内容区域</label>
+                    <label><input type="radio" name="targetRegion" value="inputBoxRegion"> 输入框区域</label>
+                </div>
+            </div>
+            <button class="btn btn-primary" id="captureBtn" onclick="toggleCapture()">开始捕获</button>
+            <div id="captureStatus" style="margin-left: 10px; display: inline; font-size: 13px;"></div>
+        </div>
+
+        <div class="card">
+            <h3>已捕获区域</h3>
+            <div id="selectionInfo" class="selection-info" style="display: none;">
+                最近捕获: <span id="selectionCoords"></span>
+            </div>
+            <div class="form-group">
+                <label>任务栏区域</label>
+                <input type="text" id="taskbarRegion" readonly placeholder="捕获后自动填充">
+            </div>
+            <div class="form-group">
+                <label>聊天列表区域</label>
+                <input type="text" id="chatListRegion" readonly placeholder="捕获后自动填充">
+            </div>
+            <div class="form-group">
+                <label>聊天内容区域</label>
+                <input type="text" id="chatContentRegion" readonly placeholder="捕获后自动填充">
+            </div>
+            <div class="form-group">
+                <label>输入框区域</label>
+                <input type="text" id="inputBoxRegion" readonly placeholder="捕获后自动填充">
+            </div>
+            <button class="btn btn-primary" onclick="saveRegions()">保存到配置</button>
+            <span id="saveStatus" style="margin-left: 10px; font-size: 13px; color: #27ae60;"></span>
+        </div>
+
+        <div class="card">
+            <h3>模板匹配测试</h3>
+            <div class="form-group">
+                <label>测试区域</label>
+                <input type="text" id="matchRegion" placeholder="426,1029,59,50">
+            </div>
+            <div class="form-group">
+                <label>模板路径</label>
+                <input type="text" id="templatePath" placeholder="templates/taskbar_normal.png">
+            </div>
+            <div class="form-group">
+                <label>匹配阈值</label>
+                <input type="range" id="matchThreshold" min="0.5" max="1" step="0.05" value="0.8">
+                <span id="thresholdValue">0.8</span>
+            </div>
+            <button class="btn btn-primary" onclick="testMatch()">测试匹配</button>
+            <div id="matchResult" class="log-display" style="margin-top: 10px;"></div>
+        </div>
+
+        <div class="card">
+            <h3>红点分析</h3>
+            <div class="form-group">
+                <label>红点模板路径</label>
+                <input type="text" id="redDotTemplate" placeholder="templates/red_dot.png">
+            </div>
+            <button class="btn btn-primary" onclick="analyzeRedDot()">分析</button>
+            <div id="redDotResult" class="log-display" style="margin-top: 10px;"></div>
+        </div>
+    </main>
+
+    <script src="/static/js/app.js?v=5"></script>
+    <script src="/static/js/calibration.js?v=5"></script>
+</body>
+</html>

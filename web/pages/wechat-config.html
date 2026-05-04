@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微信参数 - WechatAssistantAgent</title>
+    <link rel="stylesheet" href="/static/css/main.css">
+</head>
+<body>
+    <aside class="sidebar">
+        <h2>Wechat Assistant</h2>
+        <nav>
+            <a href="/">运行状态</a>
+            <a href="/config">模型配置</a>
+            <a href="/wechat-config" class="active">微信参数</a>
+            <a href="/templates">话术模板</a>
+            <a href="/calibration">视觉校准</a>
+            <a href="/monitor">运行监控</a>
+        </nav>
+    </aside>
+
+    <main class="content">
+        <h1>微信参数配置</h1>
+
+        <div class="card">
+            <h3>窗口区域配置</h3>
+            <div class="form-group">
+                <label>任务栏区域 (左, 上, 宽, 高)</label>
+                <input type="text" id="taskbarRegion" placeholder="426,1029,59,50">
+            </div>
+            <div class="form-group">
+                <label>聊天列表区域 (偏移左, 偏移上, 宽, 高)</label>
+                <input type="text" id="chatListRegion" placeholder="65,84,81,950">
+            </div>
+            <div class="form-group">
+                <label>聊天内容区域 (偏移左, 偏移上, 宽, 高)</label>
+                <input type="text" id="chatContentRegion" placeholder="306,82,636,672">
+            </div>
+            <div class="form-group">
+                <label>输入框区域 (偏移左, 偏移上, 宽, 高)</label>
+                <input type="text" id="inputBoxRegion" placeholder="509,870,200,40">
+            </div>
+            <button class="btn btn-primary" onclick="saveWechatConfig()">保存配置</button>
+        </div>
+
+        <div class="card">
+            <h3>轮询设置</h3>
+            <div class="form-group">
+                <label>轮询间隔 (秒)</label>
+                <input type="number" id="pollIntervalMin" value="3" min="1">
+                <span> - </span>
+                <input type="number" id="pollIntervalMax" value="8" min="1">
+            </div>
+            <div class="form-group">
+                <label>最大滚动次数</label>
+                <input type="number" id="maxScroll" value="20">
+            </div>
+            <div class="form-group">
+                <label>监测超时 (秒)</label>
+                <input type="number" id="monitorTimeout" value="300">
+            </div>
+            <button class="btn btn-primary" onclick="savePollingConfig()">保存</button>
+        </div>
+    </main>
+
+    <script src="/static/js/app.js"></script>
+    <script src="/static/js/wechat-config.js"></script>
+</body>
+</html>

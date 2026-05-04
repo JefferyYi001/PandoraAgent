@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>话术模板 - WechatAssistantAgent</title>
+    <link rel="stylesheet" href="/static/css/main.css">
+</head>
+<body>
+    <aside class="sidebar">
+        <h2>Wechat Assistant</h2>
+        <nav>
+            <a href="/">运行状态</a>
+            <a href="/config">模型配置</a>
+            <a href="/wechat-config">微信参数</a>
+            <a href="/templates" class="active">话术模板</a>
+            <a href="/calibration">视觉校准</a>
+            <a href="/monitor">运行监控</a>
+        </nav>
+    </aside>
+
+    <main class="content">
+        <h1>话术模板配置</h1>
+
+        <div class="card">
+            <h3>添加模板</h3>
+            <div class="form-group">
+                <label>模板名称</label>
+                <input type="text" id="templateName" placeholder="例如：欢迎语">
+            </div>
+            <div class="form-group">
+                <label>分类</label>
+                <select id="templateCategory">
+                    <option value="general">通用</option>
+                    <option value="greeting">问候</option>
+                    <option value="promotion">促销</option>
+                    <option value="followup">跟进</option>
+                    <option value="farewell">告别</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>模板内容</label>
+                <textarea id="templateContent" rows="4" placeholder="使用 {customer_name} 等变量..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>变量列表 (JSON 数组)</label>
+                <input type="text" id="templateVariables" placeholder='["customer_name", "product_name"]'>
+            </div>
+            <button class="btn btn-primary" onclick="addTemplate()">添加模板</button>
+        </div>
+
+        <div class="card">
+            <h3>已有模板</h3>
+            <div id="templateList"></div>
+        </div>
+    </main>
+
+    <script src="/static/js/app.js"></script>
+    <script src="/static/js/templates.js"></script>
+</body>
+</html>

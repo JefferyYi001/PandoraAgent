@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>运行监控 - WechatAssistantAgent</title>
+    <link rel="stylesheet" href="/static/css/main.css">
+</head>
+<body>
+    <aside class="sidebar">
+        <h2>Wechat Assistant</h2>
+        <nav>
+            <a href="/">运行状态</a>
+            <a href="/config">模型配置</a>
+            <a href="/wechat-config">微信参数</a>
+            <a href="/templates">话术模板</a>
+            <a href="/calibration">视觉校准</a>
+            <a href="/monitor" class="active">运行监控</a>
+        </nav>
+    </aside>
+
+    <main class="content">
+        <h1>运行监控</h1>
+
+        <div class="card">
+            <h3>实时状态</h3>
+            <p><span id="statusDot" class="status-dot stopped"></span><span id="statusText">已停止</span></p>
+            <p>FSM 状态: <span id="stateBadge" class="state-badge">IDLE</span></p>
+            <p>连续失败: <span id="consecutiveFailures">0</span></p>
+        </div>
+
+        <div class="card">
+            <h3>实时日志 (SSE)</h3>
+            <div id="liveLog" class="log-display">等待连接...</div>
+        </div>
+
+        <div class="card">
+            <h3>统计面板</h3>
+            <div id="statsPanel">
+                <p>总处理消息: <span id="totalMessages">0</span></p>
+                <p>已加载工具: <span id="toolsLoaded">0</span></p>
+                <p>已加载技能: <span id="skillsLoaded">0</span></p>
+            </div>
+        </div>
+    </main>
+
+    <script src="/static/js/app.js"></script>
+    <script src="/static/js/monitor.js"></script>
+</body>
+</html>

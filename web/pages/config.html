@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模型配置 - WechatAssistantAgent</title>
+    <link rel="stylesheet" href="/static/css/main.css">
+</head>
+<body>
+    <aside class="sidebar">
+        <h2>Wechat Assistant</h2>
+        <nav>
+            <a href="/">运行状态</a>
+            <a href="/config" class="active">模型配置</a>
+            <a href="/wechat-config">微信参数</a>
+            <a href="/templates">话术模板</a>
+            <a href="/calibration">视觉校准</a>
+            <a href="/monitor">运行监控</a>
+        </nav>
+    </aside>
+
+    <main class="content">
+        <h1>模型配置</h1>
+
+        <div class="card">
+            <h3>LLM API 配置</h3>
+            <div class="form-group">
+                <label>API 地址</label>
+                <input type="text" id="apiUrl" placeholder="https://api.example.com/v1">
+            </div>
+            <div class="form-group">
+                <label>API Key</label>
+                <input type="password" id="apiKey" placeholder="sk-...">
+            </div>
+            <div class="form-group">
+                <label>模型</label>
+                <input type="text" id="modelName" placeholder="gpt-4">
+            </div>
+            <div class="form-group">
+                <label>Max Tokens</label>
+                <input type="number" id="maxTokens" value="2000">
+            </div>
+            <div class="form-group">
+                <label>Temperature</label>
+                <input type="number" id="temperature" value="0.7" step="0.1" min="0" max="2">
+            </div>
+            <button class="btn btn-primary" onclick="saveConfig()">保存配置</button>
+            <button class="btn btn-success" onclick="testConnection()">测试连接</button>
+        </div>
+
+        <div class="card">
+            <h3>测试对话</h3>
+            <div class="form-group">
+                <label>测试消息</label>
+                <textarea id="testMessage" rows="3" placeholder="输入测试消息..."></textarea>
+            </div>
+            <button class="btn btn-primary" onclick="testReply()">发送测试</button>
+            <div id="testResult" class="log-display" style="margin-top: 10px;"></div>
+        </div>
+    </main>
+
+    <script src="/static/js/app.js"></script>
+    <script src="/static/js/config.js"></script>
+</body>
+</html>
