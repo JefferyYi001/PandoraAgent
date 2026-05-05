@@ -1,0 +1,100 @@
+{
+  "humanize": {
+    "bezier": {
+      "num_points": 20,
+      "control_offset_range": 30,
+      "trajectory_jitter": 1
+    },
+    "delays": {
+      "before_click": [
+        0.03,
+        0.08
+      ],
+      "after_click": [
+        0.1,
+        0.3
+      ],
+      "before_type": [
+        0.05,
+        0.15
+      ],
+      "between_chars": [
+        0.05,
+        0.15
+      ],
+      "before_scroll": [
+        0.05,
+        0.15
+      ],
+      "after_scroll": [
+        0.15,
+        0.3
+      ],
+      "before_hotkey": [
+        0.05,
+        0.15
+      ],
+      "before_press_key": [
+        0.05,
+        0.12
+      ]
+    },
+    "click": {
+      "offset_range": 5
+    },
+    "scroll": {
+      "amount_range": [
+        -600,
+        -300
+      ],
+      "random_variance": 1
+    }
+  },
+  "vision": {
+    "template_match_threshold": 0.8,
+    "red_dot_threshold": 0.75,
+    "bubble_threshold": 0.75,
+    "window_visible_threshold": 0.6,
+    "sentry_diff_threshold": 0.05,
+    "cursor_arrow_threshold": 0.5,
+    "red_verify_ratio": 0.15,
+    "white_verify_ratio": 0.05
+  },
+  "polling": {
+    "interval_min": 3.0,
+    "interval_max": 8.0,
+    "max_scroll_attempts": 20,
+    "scroll_bottom_diff_threshold": 0.01
+  },
+  "agent": {
+    "max_steps": 20,
+    "max_context_messages": 15,
+    "monitor_timeout_seconds": 300
+  },
+  "wechat": {
+    "taskbar_region": [
+      430,
+      1034,
+      62,
+      45
+    ],
+    "chat_list_region": [
+      1024,
+      83,
+      80,
+      949
+    ],
+    "chat_content_region": [
+      1264,
+      85,
+      640,
+      664
+    ],
+    "input_box_region": [
+      1278,
+      766,
+      615,
+      215
+    ]
+  }
+}

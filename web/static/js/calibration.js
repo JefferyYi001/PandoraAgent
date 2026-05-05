@@ -108,7 +108,10 @@ async function saveRegions() {
     for (const key of regionKeys) {
         const val = document.getElementById(key).value;
         if (val) {
-            regions[key] = val.split(',').map(s => parseInt(s.trim()));
+            const nums = val.split(',').map(s => parseInt(s.trim()));
+            if (nums.length === 4 && nums.every(n => !isNaN(n))) {
+                regions[key] = nums;
+            }
         }
     }
 
@@ -119,12 +122,13 @@ async function saveRegions() {
 
     const result = await apiPost('/config/wechat-regions', regions);
     const status = document.getElementById('saveStatus');
-    if (result.success) {
+    if (result.status === 'updated') {
+        status.style.color = '#27ae60';
         status.textContent = '已保存';
         setTimeout(() => { status.textContent = ''; }, 2000);
     } else {
-        status.textContent = `保存失败: ${result.output || result.error}`;
         status.style.color = '#e74c3c';
+        status.textContent = `保存失败: ${result.error || '未知错误'}`;
     }
 }
 
