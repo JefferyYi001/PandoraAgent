@@ -89,6 +89,24 @@ class VisionUtils:
         return filtered
 
     @staticmethod
+    def get_template_score(screen_region: tuple, template_path: str) -> float:
+        """Return raw template match score without threshold filtering"""
+        try:
+            if not os.path.exists(template_path):
+                return 0.0
+            screenshot = VisionUtils.capture_region(screen_region)
+            if screenshot is None:
+                return 0.0
+            template = cv2.imread(template_path)
+            if template is None:
+                return 0.0
+            result = cv2.matchTemplate(screenshot, template, cv2.TM_CCOEFF_NORMED)
+            _, max_val, _, _ = cv2.minMaxLoc(result)
+            return max_val
+        except Exception:
+            return 0.0
+
+    @staticmethod
     def capture_region(screen_region: tuple) -> np.ndarray | None:
         """Capture a screen region and convert to OpenCV BGR format"""
         try:

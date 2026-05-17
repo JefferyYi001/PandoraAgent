@@ -9,7 +9,7 @@ let corner1 = null, corner2 = null;
 
 const regionKeys = ['taskbarRegion', 'chatListRegion', 'chatContentRegion', 'inputBoxRegion'];
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     const slider = document.getElementById('matchThreshold');
     const display = document.getElementById('thresholdValue');
     if (slider) {
@@ -18,16 +18,82 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Load saved regions from server first, then localStorage as fallback
+    await loadSavedRegions();
+
+    populateRegionDropdown();
+    populateTemplateDropdowns();
+
+    // Listen for Enter key during capture
+    document.addEventListener('keydown', onKeyDown);
+});
+
+async function loadSavedRegions() {
+    // Fill from localStorage (fast, offline)
     for (const key of regionKeys) {
         const saved = localStorage.getItem(key);
         if (saved) {
             document.getElementById(key).value = saved;
         }
     }
+    // Fill from server defaults (authoritative, survives browser data clear)
+    try {
+        const result = await apiGet('/config/');
+        const defaults = result.defaults || {};
+        const wechat = defaults.wechat || {};
+        const mapping = {
+            taskbarRegion: 'taskbar_region',
+            chatListRegion: 'chat_list_region',
+            chatContentRegion: 'chat_content_region',
+            inputBoxRegion: 'input_box_region',
+        };
+        for (const [jsKey, jsonKey] of Object.entries(mapping)) {
+            if (wechat[jsonKey] && Array.isArray(wechat[jsonKey])) {
+                const val = wechat[jsonKey].join(', ');
+                document.getElementById(jsKey).value = val;
+            }
+        }
+    } catch (e) {
+        // Server unreachable — localStorage values are sufficient
+    }
+}
 
-    // Listen for Enter key during capture
-    document.addEventListener('keydown', onKeyDown);
-});
+function populateRegionDropdown() {
+    const select = document.getElementById('matchRegion');
+    if (!select) return;
+    const regionLabels = {
+        taskbarRegion: '任务栏区域',
+        chatListRegion: '聊天列表区域',
+        chatContentRegion: '聊天内容区域',
+        inputBoxRegion: '输入框区域',
+    };
+    // Clear existing options (keep the placeholder)
+    while (select.options.length > 1) select.remove(1);
+    for (const key of regionKeys) {
+        const val = document.getElementById(key).value;
+        if (val) {
+            const opt = document.createElement('option');
+            opt.value = val;
+            opt.textContent = `${regionLabels[key]} (${val})`;
+            select.appendChild(opt);
+        }
+    }
+}
+
+async function populateTemplateDropdowns() {
+    const result = await apiGet('/calibration/templates');
+    const files = result.templates || [];
+    for (const id of ['templatePath', 'redDotTemplate']) {
+        const select = document.getElementById(id);
+        if (!select) continue;
+        for (const f of files) {
+            const opt = document.createElement('option');
+            opt.value = f;
+            opt.textContent = f;
+            select.appendChild(opt);
+        }
+    }
+}
 
 function onKeyDown(e) {
     if (!isCapturing || e.key !== 'Enter') return;
@@ -101,6 +167,7 @@ function fillTargetRegion(targetId, left, top, width, height) {
     const value = `${left}, ${top}, ${width}, ${height}`;
     input.value = value;
     localStorage.setItem(targetId, value);
+    populateRegionDropdown();
 }
 
 async function saveRegions() {

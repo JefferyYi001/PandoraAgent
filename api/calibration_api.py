@@ -74,3 +74,15 @@ async def get_mouse_position():
     import pyautogui
     pos = pyautogui.position()
     return {"x": pos.x, "y": pos.y}
+
+
+@router.get("/templates")
+async def list_templates():
+    """List all template image files"""
+    settings = get_settings()
+    templates_dir = settings.templates_dir
+    files = sorted([
+        f"templates/{f}" for f in os.listdir(templates_dir)
+        if f.lower().endswith((".png", ".jpg", ".jpeg"))
+    ])
+    return {"templates": files}

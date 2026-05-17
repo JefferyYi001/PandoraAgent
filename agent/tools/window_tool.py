@@ -34,7 +34,7 @@ class WindowTool(BaseTool):
     def _check_visible(self) -> ToolResult:
         from config.defaults import get_defaults
         defaults = get_defaults()
-        visible_threshold = defaults.get("vision", {}).get("thresholds", {}).get("window_visible", 0.6)
+        visible_threshold = defaults.get("vision", {}).get("window_visible_threshold", 0.6)
 
         hwnd = window.find_window(window_name="WeChat")
         if hwnd and window.is_window_visible(hwnd):

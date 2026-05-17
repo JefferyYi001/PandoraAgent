@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>视觉校准 - WechatAssistantAgent</title>
-    <link rel="stylesheet" href="/static/css/main.css?v=5">
+    <link rel="stylesheet" href="/static/css/main.css?v=6">
 </head>
 <body>
     <aside class="sidebar">
@@ -69,11 +69,15 @@
             <h3>模板匹配测试</h3>
             <div class="form-group">
                 <label>测试区域</label>
-                <input type="text" id="matchRegion" placeholder="426,1029,59,50">
+                <select id="matchRegion">
+                    <option value="">-- 请选择 --</option>
+                </select>
             </div>
             <div class="form-group">
                 <label>模板路径</label>
-                <input type="text" id="templatePath" placeholder="templates/taskbar_normal.png">
+                <select id="templatePath">
+                    <option value="">-- 请选择 --</option>
+                </select>
             </div>
             <div class="form-group">
                 <label>匹配阈值</label>
@@ -88,14 +92,16 @@
             <h3>红点分析</h3>
             <div class="form-group">
                 <label>红点模板路径</label>
-                <input type="text" id="redDotTemplate" placeholder="templates/red_dot.png">
+                <select id="redDotTemplate">
+                    <option value="">-- 请选择 --</option>
+                </select>
             </div>
             <button class="btn btn-primary" onclick="analyzeRedDot()">分析</button>
             <div id="redDotResult" class="log-display" style="margin-top: 10px;"></div>
         </div>
     </main>
 
-    <script src="/static/js/app.js?v=5"></script>
-    <script src="/static/js/calibration.js?v=5"></script>
+    <script src="/static/js/app.js?v=6"></script>
+    <script src="/static/js/calibration.js?v=6"></script>
 </body>
 </html>

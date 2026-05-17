@@ -39,8 +39,8 @@ class ScrollTool(BaseTool):
 
         from config.defaults import get_defaults
         defaults = get_defaults()
-        max_scrolls = p.get("max_scrolls", defaults.get("vision", {}).get("polling", {}).get("max_scroll", 20))
-        change_threshold = defaults.get("vision", {}).get("thresholds", {}).get("scroll_change", 0.01)
+        max_scrolls = p.get("max_scrolls", defaults.get("polling", {}).get("max_scroll_attempts", 20))
+        change_threshold = defaults.get("vision", {}).get("scroll_change_threshold", 0.01)
 
         # Move cursor into chat area before scrolling
         pyautogui.moveTo(screen_region[0] + 50, screen_region[1] + 50)

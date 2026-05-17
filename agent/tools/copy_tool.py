@@ -39,7 +39,7 @@ class CopyTool(BaseTool):
         if not os.path.exists(copy_btn_path):
             return ToolResult.fail(f"Copy button template not found: {copy_btn_path}")
 
-        threshold = defaults.get("vision", {}).get("thresholds", {}).get("copy_button", 0.75)
+        threshold = defaults.get("vision", {}).get("copy_button_threshold", 0.75)
 
         ClipboardHelper.clear()
         human_right_click(p["x"], p["y"])

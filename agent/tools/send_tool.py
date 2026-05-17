@@ -5,7 +5,7 @@ SendTool - Paste reply from clipboard and press Enter to send
 import pyautogui
 
 from agent.tools.base_tool import BaseTool, ToolResult
-from automation.humanize import human_sleep, human_click, human_hotkey
+from automation.humanize import human_sleep, human_click, human_hotkey, human_press_key
 from automation.clipboard import ClipboardHelper
 from utils.logger import logger
 
@@ -47,7 +47,7 @@ class SendTool(BaseTool):
         human_sleep(0.3, 0.5)
 
         # Send
-        pyautogui.press("enter")
+        human_press_key('enter')
         human_sleep(0.2, 0.4)
 
         logger.info(f"Sent reply: {p['text'][:50]}...")

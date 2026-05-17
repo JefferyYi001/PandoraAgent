@@ -36,7 +36,7 @@ class SentryTool(BaseTool):
         defaults = get_defaults()
         settings = get_settings()
 
-        diff_threshold = defaults.get("vision", {}).get("thresholds", {}).get("sentry_diff", 0.05)
+        diff_threshold = defaults.get("vision", {}).get("sentry_diff_threshold", 0.05)
 
         templates_dir = settings.templates_dir
         normal_path = os.path.join(templates_dir, "taskbar_normal.png")
@@ -49,16 +49,25 @@ class SentryTool(BaseTool):
         if screenshot is None:
             return ToolResult.fail("Failed to capture taskbar region")
 
-        normal_score = self._match_template(screenshot, normal_path)
-        alert_score = self._match_template(screenshot, alert_path)
+        normal_score, _ = self._match_template(screenshot, normal_path)
+        alert_score, alert_loc = self._match_template(screenshot, alert_path)
 
         logger.debug(f"Sentry: normal={normal_score:.3f}, alert={alert_score:.3f}, threshold={diff_threshold}")
 
         if alert_score > normal_score + diff_threshold:
+            alert_position = None
+            if alert_loc is not None:
+                alert_template = cv2.imread(alert_path)
+                th, tw = alert_template.shape[:2]
+                alert_position = [
+                    alert_loc[0] + tw // 2 + region[0],
+                    alert_loc[1] + th // 2 + region[1],
+                ]
             return ToolResult.ok("alert", data={
                 "normal_score": normal_score,
                 "alert_score": alert_score,
                 "state": "alert",
+                "alert_position": alert_position,
             })
 
         return ToolResult.ok("normal", data={
@@ -67,10 +76,10 @@ class SentryTool(BaseTool):
             "state": "normal",
         })
 
-    def _match_template(self, screenshot, template_path: str) -> float:
+    def _match_template(self, screenshot, template_path: str) -> tuple[float, tuple[int, int] | None]:
         template = cv2.imread(template_path)
         if template is None:
-            return 0.0
+            return (0.0, None)
         result = cv2.matchTemplate(screenshot, template, cv2.TM_CCOEFF_NORMED)
-        _, max_val, _, _ = cv2.minMaxLoc(result)
-        return max_val
+        _, max_val, _, max_loc = cv2.minMaxLoc(result)
+        return (max_val, max_loc)

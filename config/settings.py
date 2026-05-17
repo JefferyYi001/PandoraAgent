@@ -8,7 +8,7 @@ class Settings(BaseSettings):
     """Application settings loaded from .env and environment variables."""
 
     # LLM API
-    llm_api_url: str = "https://api.openai.com/v1/chat/completions"
+    llm_api_url: str = "https://api.openai.com/v1"
     llm_api_key: str = ""
     llm_model: str = "gpt-4o"
     llm_max_tokens: int = 2000
